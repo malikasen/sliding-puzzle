@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { canSwap, isSolved, shuffle, swap } from "./helpers";
 import Tile from "./Tile";
 
@@ -6,6 +6,7 @@ function Board(props) {
   const { rows, cols, width, height, image, images } = props;
   const [tiles, setTiles] = useState([...Array(rows * cols).keys()]);
   const [started, setStarted] = useState(false);
+  
 
   const shuffleTiles = () => {
     const shuffledTiles = shuffle(tiles, rows, cols);
@@ -35,7 +36,7 @@ function Board(props) {
     width,
     height,
   };
-
+  
   return (
     <>
       <ul style={style} className="board">

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import Board from "./Board";
 import { updateURLParameter } from "./helpers";
 import './index.css' 
+import LeaderBoard from "./LeaderBoard";
+import * as apiClient from "./apiClient";
 // import num1 from './images/1.jpg';
 // import num2 from './images/2.jpg';
 
 function App() {
   const [imageUrl, setImageUrl] = useState("");
+  const [leaders, setLeaders] = useState([]);
   const images = [
     imageUrl,
     imageUrl,
@@ -40,6 +43,10 @@ function App() {
       updateURLParameter(window.location.href, "img", event.target.value)
     );
   };
+  const loadLeaders = async () => setLeaders(await apiClient.getLeaders());
+  useEffect(() => {
+    loadLeaders();
+  }, [leaders]);
   return (
     <div className="App">
       <Board
@@ -49,6 +56,9 @@ function App() {
         height={320}
         image={imageUrl}
         images={images}
+      />
+      <LeaderBoard
+        leaders={leaders}
       />
       {/* <label>
         Image:

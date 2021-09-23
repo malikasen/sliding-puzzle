@@ -1,5 +1,7 @@
-export const getTasks = () => _get("/api/tasks");
+import { getMatrixPosition } from "./helpers";
 
+export const getTasks = () => _get("/api/tasks");
+export const getLeaders = () => _get("/api/leaders");
 export const addTask = (name) => _post("/api/tasks", { name });
 
 const _get = async (url) => (await fetch(url)).json();
