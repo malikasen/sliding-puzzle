@@ -5,7 +5,8 @@ import * as db from "./db.mjs";
 const leaderRouter = express.Router();
 
 leaderRouter.get("/", async (request, response) => {
-  const leaders = await db.getleaders();
+  const leaders = await db.getLeaders();
+  console.log(leaders);
   response.json(leaders);
 });
 

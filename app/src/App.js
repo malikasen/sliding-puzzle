@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+
 import Board from "./Board";
-import { updateURLParameter } from "./helpers";
-import './index.css' 
+import "./index.css"; 
 import LeaderBoard from "./LeaderBoard";
 import * as apiClient from "./apiClient";
+import { updateURLParameter } from "./helpers";
 // import num1 from './images/1.jpg';
 // import num2 from './images/2.jpg';
 
@@ -28,22 +29,26 @@ function App() {
     imageUrl,
     imageUrl,
   ];
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
 
-    if (urlParams.has("img")) {
-      setImageUrl(urlParams.get("img"));
-    }
-  }, []);
-  const handleImageChange = (event) => {
-    setImageUrl(event.target.value);
-    window.history.replaceState(
-      "",
-      "",
-      updateURLParameter(window.location.href, "img", event.target.value)
-    );
+  //   if (urlParams.has("img")) {
+  //     setImageUrl(urlParams.get("img"));
+  //   }
+  // }, []);
+  // const handleImageChange = (event) => {
+  //   setImageUrl(event.target.value);
+  //   window.history.replaceState(
+  //     "",
+  //     "",
+  //     updateURLParameter(window.location.href, "img", event.target.value)
+  //   );
+  // };
+  const loadLeaders = async () => {
+    console.log("loadLeaders called");
+    setLeaders(await apiClient.getLeaders());
+    console.log("leaders", leaders);
   };
-  const loadLeaders = async () => setLeaders(await apiClient.getLeaders());
   useEffect(() => {
     loadLeaders();
   }, [leaders]);
@@ -57,9 +62,7 @@ function App() {
         image={imageUrl}
         images={images}
       />
-      <LeaderBoard
-        leaders={leaders}
-      />
+      <LeaderBoard leaders={leaders} />
       {/* <label>
         Image:
         <input
@@ -74,4 +77,3 @@ function App() {
 }
 
 export default App;
-

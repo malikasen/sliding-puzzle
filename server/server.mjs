@@ -2,6 +2,7 @@ import express from "express";
 import mime from "mime-types";
 
 import taskRouter from "./taskRouter.mjs";
+import leaderRouter from "./leaderRouter.mjs";
 
 const app = express();
 

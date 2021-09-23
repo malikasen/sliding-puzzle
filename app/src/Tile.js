@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Motion, spring } from "react-motion";
+
 import { getMatrixPosition, getVisualPosition } from "./helpers";
 
 function Tile(props) {
@@ -46,4 +48,3 @@ function Tile(props) {
 }
 
 export default Tile;
-
