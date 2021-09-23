@@ -11,9 +11,15 @@ leaderRouter.get("/", async (request, response) => {
 });
 
 leaderRouter.use(express.json());
-// leaderRouter.post("/", async (request, response) => {
-//   const leader = await db.addScore(request.body.name);
-//   response.status(201).json(leader);
-// });
+leaderRouter.post("/", async (request, response) => {
+  console.log("request.body", request.body);
+  const params = {
+    username: request.body.username.username,
+    numberOfMoves: request.body.username.numberOfMoves,
+  }
+  console.log("params", params)
+  const newScore = await db.addScore(request.body.params);
+  response.status(201).json(newScore);
+});
 
 export default leaderRouter;

@@ -62,6 +62,7 @@ function App() {
         height={320}
         image={imageUrl}
         images={images}
+        loadLeaders={loadLeaders}
       />
       <LeaderBoard leaders={leaders} />
       {/* <label>
