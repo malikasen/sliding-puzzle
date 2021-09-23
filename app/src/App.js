@@ -50,7 +50,7 @@ function App() {
         image={imageUrl}
         images={images}
       />
-      <label>
+      {/* <label>
         Image:
         <input
           value={imageUrl}
@@ -58,7 +58,7 @@ function App() {
           type="text"
           name="name"
         />
-      </label>
+      </label> */}
     </div>
   );
 }
