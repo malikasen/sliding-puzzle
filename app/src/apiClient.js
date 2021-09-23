@@ -2,8 +2,7 @@ import { getMatrixPosition } from "./helpers";
 
 export const getTasks = () => _get("/api/tasks");
 export const getLeaders = () => {
-  console.log("getLeaders called");
-  _get("/api/leaders");
+  return _get("/api/leaders");
 };
 export const addTask = (name) => _post("/api/tasks", { name });
 

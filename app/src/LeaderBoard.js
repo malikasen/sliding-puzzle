@@ -16,7 +16,7 @@ function LeaderBoard({ leaders }) {
             <tr key={leaders.id}>
               <td>{index + 1}</td>
               <td>{leaders.username}</td>
-              <td>{leaders.lowestNumberOfMoves}</td>
+              <td>{leaders.lowestnumberofmoves}</td>
             </tr>
           ))}
         </tbody>

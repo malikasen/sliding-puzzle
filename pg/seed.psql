@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.3
--- Dumped by pg_dump version 13.3
+-- Dumped from database version 13.4
+-- Dumped by pg_dump version 13.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,6 +19,37 @@ SET row_security = off;
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
+
+--
+-- Name: leaderboard; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.leaderboard (
+    id integer NOT NULL,
+    username text,
+    lowestnumberofmoves integer
+);
+
+
+--
+-- Name: leaderboard_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.leaderboard_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: leaderboard_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.leaderboard_id_seq OWNED BY public.leaderboard.id;
+
 
 --
 -- Name: tasks; Type: TABLE; Schema: public; Owner: -
@@ -51,10 +82,26 @@ ALTER SEQUENCE public.tasks_id_seq OWNED BY public.tasks.id;
 
 
 --
+-- Name: leaderboard id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.leaderboard ALTER COLUMN id SET DEFAULT nextval('public.leaderboard_id_seq'::regclass);
+
+
+--
 -- Name: tasks id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tasks ALTER COLUMN id SET DEFAULT nextval('public.tasks_id_seq'::regclass);
+
+
+--
+-- Data for Name: leaderboard; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.leaderboard (id, username, lowestnumberofmoves) FROM stdin;
+1	test1User	60
+\.
 
 
 --
@@ -71,10 +118,25 @@ COPY public.tasks (id, name) FROM stdin;
 
 
 --
+-- Name: leaderboard_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.leaderboard_id_seq', 1, true);
+
+
+--
 -- Name: tasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.tasks_id_seq', 5, true);
+
+
+--
+-- Name: leaderboard leaderboard_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.leaderboard
+    ADD CONSTRAINT leaderboard_pkey PRIMARY KEY (id);
 
 
 --

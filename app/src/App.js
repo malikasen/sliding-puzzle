@@ -7,6 +7,8 @@ import * as apiClient from "./apiClient";
 import { updateURLParameter } from "./helpers";
 // import num1 from './images/1.jpg';
 // import num2 from './images/2.jpg';
+// Game bilt based on tutorial https://www.youtube.com/watch?v=_wdbhVvMOCs
+// Leaderboard and db functionality is programmed by Malika Kassen-Lao
 
 function App() {
   const [imageUrl, setImageUrl] = useState("");
@@ -45,13 +47,12 @@ function App() {
   //   );
   // };
   const loadLeaders = async () => {
-    console.log("loadLeaders called");
-    setLeaders(await apiClient.getLeaders());
-    console.log("leaders", leaders);
+    const result = (await apiClient.getLeaders());
+    setLeaders(result);
   };
   useEffect(() => {
     loadLeaders();
-  }, [leaders]);
+  }, []);
   return (
     <div className="App">
       <Board

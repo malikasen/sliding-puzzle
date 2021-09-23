@@ -7,6 +7,7 @@ function Board(props) {
   const { rows, cols, width, height, image, images } = props;
   const [tiles, setTiles] = useState([...Array(rows * cols).keys()]);
   const [started, setStarted] = useState(false);
+  const [numberOfMoves, setNumberOfmoves] = useState(1);
 
   const shuffleTiles = () => {
     const shuffledTiles = shuffle(tiles, rows, cols);
@@ -17,6 +18,8 @@ function Board(props) {
     if (canSwap(tileIndex, tiles.indexOf(tiles.length - 1), rows, cols)) {
       const newTiles = swap(tiles, tileIndex, tiles.indexOf(tiles.length - 1));
       setTiles(newTiles);
+      setNumberOfmoves(numberOfMoves + 1);
+      console.log(numberOfMoves);
     }
   };
 
@@ -27,6 +30,7 @@ function Board(props) {
   const handleButtonClick = () => {
     shuffleTiles();
     setStarted(true);
+    setNumberOfmoves(1);
   };
 
   const solved = isSolved(tiles);
@@ -54,7 +58,7 @@ function Board(props) {
           />
         ))}
       </ul>
-      <div>{solved && started ? "Puzzle solved 🧠 🎉" : ""}</div>
+      <div>{solved && started ? `Puzzle solved in ${numberOfMoves} moves` : ""}</div>
       <button onClick={handleButtonClick}>
         {!started || solved ? "Start" : "Restart"}
       </button>
