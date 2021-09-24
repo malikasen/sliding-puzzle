@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Tile from "./Tile";
 import * as apiClient from "./apiClient";
@@ -8,13 +8,19 @@ function Board(props) {
   const { rows, cols, width, height, image, images, leaders, loadLeaders } = props;
   const [tiles, setTiles] = useState([...Array(rows * cols).keys()]);
   const [started, setStarted] = useState(false);
-  const [numberOfMoves, setNumberOfmoves] = useState("0");
+  const [numberOfMoves, setNumberOfmoves] = useState(0);
   const [username, setUsername] = useState("");
   const [nameInUserField, setNameInUserField] = useState("");
+  // const [solved, setSolved] = useState(false);
 
+  // useEffect(() => {
+  //   setSolved(isSolved(tiles));
+  // },[tiles])
   const solved = isSolved(tiles);
   const addScore = (newScore) => apiClient.addScore(newScore).then(loadLeaders);
-  const editScore = (newScore) => apiClient.editScore(newScore).then(loadLeaders);
+  const editScore = (newScore) => {
+    return apiClient.editScore(newScore).then(loadLeaders);
+  }
 
   const shuffleTiles = () => {
     const shuffledTiles = shuffle(tiles, rows, cols);
@@ -26,9 +32,7 @@ function Board(props) {
       const newTiles = swap(tiles, tileIndex, tiles.indexOf(tiles.length - 1));
       setNumberOfmoves(numberOfMoves + 1);
       setTiles(newTiles);
-      console.log(numberOfMoves);
-      console.log("solved", solved);
-      console.log("username, userfield", username, nameInUserField);
+      
     }
   };
 
@@ -39,33 +43,54 @@ function Board(props) {
       const usernameExists = leaders.some(function(user) {
           return user.username === username;
       })
-      const scoreIsHigher = leaders.some(function(user) {
+      const oldScoreIsHigher = leaders.some(function(user) {
         if (user.username === username) {
-          if (user.numberOfMoves > numberOfMoves) {
+          if (user.lowestnumberofmoves > numberOfMoves) {
             return true;
           }
         }
-    })
-      // const scores = leaders.map(function(user) {
-      //   return user.username;
-      // })
+      })
+    
       const canAdd = newScore !== undefined;
-      console.log("newScore", newScore);
       if (canAdd) {
         if (!usernameExists) {
           addScore(newScore);
-        } else if (scoreIsHigher) {
+        } else if (oldScoreIsHigher) {
           editScore(newScore);
-        }
+        } 
       }
     }
   };
+
+  // useEffect(() => {
+  //   if (solved) {
+  //     const newScore = {username: username, numberOfMoves: numberOfMoves};
+  //     const usernameExists = leaders.some(function(user) {
+  //         return user.username === username;
+  //     })
+  //     const oldScoreIsHigher = leaders.some(function(user) {
+  //       if (user.username === username) {
+  //         if (user.lowestnumberofmoves > numberOfMoves) {
+  //           return true;
+  //         }
+  //       }
+  //   })
+    
+  //     const canAdd = newScore !== undefined;
+  //     if (canAdd) {
+  //       if (!usernameExists) {
+  //         addScore(newScore);
+  //       } else if (oldScoreIsHigher) {
+  //         editScore(newScore);
+  //       } 
+  //     }
+  //   }
+  // },[solved, username, numberOfMoves])
 
   const handleButtonClick = () => {
     if (username !== "") {
       shuffleTiles();
       setStarted(true);
-      setNumberOfmoves(1);
       setNameInUserField("");
     }
   };
@@ -77,15 +102,17 @@ function Board(props) {
     width,
     height,
   };
-  
+  console.log("moves",numberOfMoves);
+  console.log("solved", solved);
+  console.log("shuffled tiles",tiles);
   return (
     <>
     <form>
-      <input placeholder="username" value={nameInUserField} onChange={(e) => {
+      <input id="nameInput" placeholder="username" value={nameInUserField} onChange={(e) => {
         setUsername(e.currentTarget.value);
         setNameInUserField(e.currentTarget.value);
       }} required></input>
-      <button onClick={handleButtonClick}>
+      <button id="startBtn" onClick={handleButtonClick}>
         {!started || solved ? "Start" : "Restart"}
       </button>
     </form>

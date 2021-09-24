@@ -6,10 +6,11 @@ export const getLeaders = () => {
 };
 export const addTask = (name) => _post("/api/tasks", { name });
 export const addScore = (newScore) => {
-  console.log("addscore is called in apiclient")
   return _post("/api/leaders", newScore);
 }
-export const editScore = (newScore) => _put("api/leaders", newScore)
+export const editScore = (newScore) => {
+  return _put("api/leaders/${newScore.username}", newScore)
+}
 
 const _get = async (url) => (await fetch(url)).json();
 
@@ -26,3 +27,16 @@ const _post = async (url, body) => {
 
   return result;
 };
+
+const _put = async (url, body) => {
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  let result;
+  try {
+    result = await response.json();
+  } catch {}
+  return result;
+}

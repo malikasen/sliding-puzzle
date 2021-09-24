@@ -13,7 +13,6 @@ import { updateURLParameter } from "./helpers";
 function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [leaders, setLeaders] = useState([]);
-  const [usernames, setUsernames] = useState([]);
   const images = [
     imageUrl,
     imageUrl,
@@ -50,10 +49,6 @@ function App() {
   const loadLeaders = async () => {
     const result = (await apiClient.getLeaders());
     setLeaders(result.slice(0, 5));
-    // setUsernames(result.map(function(user) {
-    //   return user.username;
-    // }))
-    // console.log(usernames);
   };
   useEffect(() => {
     loadLeaders();

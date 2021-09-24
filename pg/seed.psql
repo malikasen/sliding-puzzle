@@ -100,7 +100,7 @@ ALTER TABLE ONLY public.tasks ALTER COLUMN id SET DEFAULT nextval('public.tasks_
 --
 
 COPY public.leaderboard (id, username, lowestnumberofmoves) FROM stdin;
-1	test1User	60
+2	Malika	59
 \.
 
 
@@ -121,7 +121,7 @@ COPY public.tasks (id, name) FROM stdin;
 -- Name: leaderboard_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.leaderboard_id_seq', 1, true);
+SELECT pg_catalog.setval('public.leaderboard_id_seq', 30, true);
 
 
 --

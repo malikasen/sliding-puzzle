@@ -46,3 +46,10 @@ code {
 button {
   display: block;
 }
+table, th, td {
+  border-collapse: collapse;
+  border: 1px solid white;
+}
+#nameInput {
+  margin-bottom: 2%;
+}

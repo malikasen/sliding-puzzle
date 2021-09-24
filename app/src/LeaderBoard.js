@@ -3,7 +3,8 @@ import * as React from "react";
 function LeaderBoard({ leaders }) {
   return (
     <div>
-      <table>
+      <h3>Leader Board</h3>
+      <table className="table">
         <thead>
           <tr>
             <th>Position</th>
