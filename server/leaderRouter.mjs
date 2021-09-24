@@ -18,7 +18,7 @@ leaderRouter.post("/", async (request, response) => {
     numberOfMoves: request.body.username.numberOfMoves,
   }
   console.log("params", params)
-  const newScore = await db.addScore(request.body.params);
+  const newScore = await db.addScore(params);
   response.status(201).json(newScore);
 });
 

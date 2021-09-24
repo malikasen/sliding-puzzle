@@ -8,7 +8,7 @@ function Board(props) {
   const { rows, cols, width, height, image, images, loadLeaders } = props;
   const [tiles, setTiles] = useState([...Array(rows * cols).keys()]);
   const [started, setStarted] = useState(false);
-  const [numberOfMoves, setNumberOfmoves] = useState(1);
+  const [numberOfMoves, setNumberOfmoves] = useState("0");
   const [username, setUsername] = useState("");
   const [nameInUserField, setNameInUserField] = useState("");
 
@@ -34,12 +34,12 @@ function Board(props) {
   const handleTileClick = (index) => {
     swapTiles(index);
     if (solved) {
-      const newScore = {
-        username: username,
-        numberOfMoves: numberOfMoves
-      }
+      const newScore = {username: username, numberOfMoves: numberOfMoves};
+      const canAdd = newScore !== undefined;
       console.log("newScore", newScore);
-      addScore(newScore);
+      if (canAdd) {
+        addScore(newScore);
+      }
     }
   };
 
