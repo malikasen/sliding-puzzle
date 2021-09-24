@@ -5,10 +5,11 @@ export const getLeaders = () => {
   return _get("/api/leaders");
 };
 export const addTask = (name) => _post("/api/tasks", { name });
-export const addScore = (username, numberOfMoves) => {
+export const addScore = (newScore) => {
   console.log("addscore is called in apiclient")
-  return _post("/api/leaders", { username, numberOfMoves });
+  return _post("/api/leaders", newScore);
 }
+export const editScore = (newScore) => _put("api/leaders", newScore)
 
 const _get = async (url) => (await fetch(url)).json();
 

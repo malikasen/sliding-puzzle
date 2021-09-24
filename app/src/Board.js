@@ -5,7 +5,7 @@ import * as apiClient from "./apiClient";
 import { canSwap, isSolved, shuffle, swap } from "./helpers";
 
 function Board(props) {
-  const { rows, cols, width, height, image, images, loadLeaders } = props;
+  const { rows, cols, width, height, image, images, leaders, loadLeaders } = props;
   const [tiles, setTiles] = useState([...Array(rows * cols).keys()]);
   const [started, setStarted] = useState(false);
   const [numberOfMoves, setNumberOfmoves] = useState("0");
@@ -13,7 +13,8 @@ function Board(props) {
   const [nameInUserField, setNameInUserField] = useState("");
 
   const solved = isSolved(tiles);
-  const addScore = (username, numberOfMoves) => apiClient.addScore(username, numberOfMoves).then(loadLeaders);
+  const addScore = (newScore) => apiClient.addScore(newScore).then(loadLeaders);
+  const editScore = (newScore) => apiClient.editScore(newScore).then(loadLeaders);
 
   const shuffleTiles = () => {
     const shuffledTiles = shuffle(tiles, rows, cols);
@@ -35,10 +36,27 @@ function Board(props) {
     swapTiles(index);
     if (solved) {
       const newScore = {username: username, numberOfMoves: numberOfMoves};
+      const usernameExists = leaders.some(function(user) {
+          return user.username === username;
+      })
+      const scoreIsHigher = leaders.some(function(user) {
+        if (user.username === username) {
+          if (user.numberOfMoves > numberOfMoves) {
+            return true;
+          }
+        }
+    })
+      // const scores = leaders.map(function(user) {
+      //   return user.username;
+      // })
       const canAdd = newScore !== undefined;
       console.log("newScore", newScore);
       if (canAdd) {
-        addScore(newScore);
+        if (!usernameExists) {
+          addScore(newScore);
+        } else if (scoreIsHigher) {
+          editScore(newScore);
+        }
       }
     }
   };
