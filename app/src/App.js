@@ -48,7 +48,7 @@ function App() {
   // };
   const loadLeaders = async () => {
     const result = (await apiClient.getLeaders());
-    setLeaders(result.slice(0, 5));
+    setLeaders(result.slice(0, 10));
   };
   useEffect(() => {
     loadLeaders();

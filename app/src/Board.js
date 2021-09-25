@@ -11,12 +11,13 @@ function Board(props) {
   const [numberOfMoves, setNumberOfmoves] = useState(0);
   const [username, setUsername] = useState("");
   const [nameInUserField, setNameInUserField] = useState("");
-  // const [solved, setSolved] = useState(false);
+  const [solved, setSolved] = useState(false);
 
-  // useEffect(() => {
-  //   setSolved(isSolved(tiles));
-  // },[tiles])
-  const solved = isSolved(tiles);
+  useEffect(() => {
+    setSolved(isSolved(tiles));
+  },[tiles])
+  // const solved = isSolved(tiles);
+  
   const addScore = (newScore) => apiClient.addScore(newScore).then(loadLeaders);
   const editScore = (newScore) => {
     return apiClient.editScore(newScore).then(loadLeaders);
@@ -24,7 +25,8 @@ function Board(props) {
 
   const shuffleTiles = () => {
     const shuffledTiles = shuffle(tiles, rows, cols);
-    setTiles(shuffledTiles);
+    setTiles([0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,14]);
+    // setTiles(shuffledTiles);
   };
 
   const swapTiles = (tileIndex) => {
@@ -32,13 +34,37 @@ function Board(props) {
       const newTiles = swap(tiles, tileIndex, tiles.indexOf(tiles.length - 1));
       setNumberOfmoves(numberOfMoves + 1);
       setTiles(newTiles);
-      
     }
   };
 
   const handleTileClick = (index) => {
     swapTiles(index);
-    if (solved) {
+    // if (solved) {
+    //   const newScore = {username: username, numberOfMoves: numberOfMoves};
+    //   const usernameExists = leaders.some(function(user) {
+    //       return user.username === username;
+    //   })
+    //   const oldScoreIsHigher = leaders.some(function(user) {
+    //     if (user.username === username) {
+    //       if (user.lowestnumberofmoves > numberOfMoves) {
+    //         return true;
+    //       }
+    //     }
+    //   })
+    
+    //   const canAdd = newScore !== undefined;
+    //   if (canAdd) {
+    //     if (!usernameExists) {
+    //       addScore(newScore); 
+    //     } else if (oldScoreIsHigher) {
+    //       editScore(newScore);
+    //     } 
+    //   }
+    // }
+  };
+
+  useEffect(() => {
+    if (solved && started) {
       const newScore = {username: username, numberOfMoves: numberOfMoves};
       const usernameExists = leaders.some(function(user) {
           return user.username === username;
@@ -60,32 +86,7 @@ function Board(props) {
         } 
       }
     }
-  };
-
-  // useEffect(() => {
-  //   if (solved) {
-  //     const newScore = {username: username, numberOfMoves: numberOfMoves};
-  //     const usernameExists = leaders.some(function(user) {
-  //         return user.username === username;
-  //     })
-  //     const oldScoreIsHigher = leaders.some(function(user) {
-  //       if (user.username === username) {
-  //         if (user.lowestnumberofmoves > numberOfMoves) {
-  //           return true;
-  //         }
-  //       }
-  //   })
-    
-  //     const canAdd = newScore !== undefined;
-  //     if (canAdd) {
-  //       if (!usernameExists) {
-  //         addScore(newScore);
-  //       } else if (oldScoreIsHigher) {
-  //         editScore(newScore);
-  //       } 
-  //     }
-  //   }
-  // },[solved, username, numberOfMoves])
+  },[solved])
 
   const handleButtonClick = () => {
     if (username !== "") {
@@ -95,7 +96,6 @@ function Board(props) {
     }
   };
 
-  
   const pieceWidth = Math.round(width / cols);
   const pieceHeight = Math.round(height / rows);
   const style = {
